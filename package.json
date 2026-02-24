@@ -15,6 +15,7 @@
     "dev:chrome": "nodemon --config nodemon.chrome.json",
     "dev:firefox": "nodemon --config nodemon.firefox.json"
   },
+  "packageManager": "pnpm@10.25.0",
   "type": "module",
   "dependencies": {
     "react": "^19.1.0",
