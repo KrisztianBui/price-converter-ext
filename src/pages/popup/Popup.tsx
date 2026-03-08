@@ -22,10 +22,10 @@ const CURRENCIES: CurrencyOption[] = [
 ];
 
 export default function Popup() {
-  const [amount, setAmount] = useState<string>('');
+  const [amount, setAmount] = useState<number | undefined>(undefined);
   const [fromCurrency, setFromCurrency] = useState<CurrencyOption>(CURRENCIES[0]);
   const [toCurrency, setToCurrency] = useState<CurrencyOption>(CURRENCIES[1]);
-  const [result, setResult] = useState<string>('');
+  const [result, setResult] = useState<number | undefined>(undefined);
 
   const handleSwap = () => {
     setFromCurrency(toCurrency);
@@ -33,7 +33,7 @@ export default function Popup() {
   };
 
   const handleConvert = () => {
-    setResult('1234.56'); // TODO: wire up real API
+    setResult(1234.56); // TODO: wire up real API
   };
 
   return (
@@ -54,7 +54,9 @@ export default function Popup() {
         <Button variant="outline" size="icon" onClick={handleSwap} aria-label="Swap currencies">
           <ArrowLeftRight />
         </Button>
+      </div>
 
+      <div>
         <CurrencyInput
           className="flex-1"
           amount={result}

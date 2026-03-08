@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { NumericFormat } from "react-number-format"
 import { cn } from "@src/lib/utils"
 import {
   Combobox,
@@ -19,8 +20,8 @@ export interface CurrencyOption {
 }
 
 export interface CurrencyInputProps {
-  amount: string
-  onAmountChange: (value: string) => void
+  amount: number | undefined
+  onAmountChange: (value: number | undefined) => void
   currency: CurrencyOption
   onCurrencyChange: (currency: CurrencyOption) => void
   currencies: CurrencyOption[]
@@ -139,13 +140,15 @@ export function CurrencyInput({
       <div className="bg-border h-5 w-px shrink-0" aria-hidden />
 
       {/* RIGHT: Number input */}
-      <input
-        type="number"
+      <NumericFormat
         value={amount}
-        onChange={(e) => onAmountChange(e.target.value)}
+        onValueChange={(values) => onAmountChange(values.floatValue)}
+        thousandSeparator=","
+        decimalSeparator="."
+        allowNegative={false}
         placeholder={placeholder ?? "0"}
         disabled={disabled}
-        className="placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex-1 min-w-0 rounded-r-md h-9 px-3 text-sm text-right bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        className="placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex-1 min-w-0 rounded-r-md h-9 px-3 text-sm text-left bg-transparent outline-none"
       />
     </div>
   )
