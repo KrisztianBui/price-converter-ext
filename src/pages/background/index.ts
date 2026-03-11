@@ -8,18 +8,14 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId !== 'convert-price' || !info.selectionText || !tab?.id) return;
+chrome.contextMenus.onClicked.addListener((info) => {
+  if (info.menuItemId !== 'convert-price' || !info.selectionText) return;
 
-  const result = convertPrice(info.selectionText);
+  const parsed = parsePrice(info.selectionText.trim());
+  const pending = parsed
+    ? { amount: parsed.amount, currency: parsed.currency }
+    : { amount: null, currency: null };
 
-  chrome.tabs.sendMessage(tab.id, { type: 'SHOW_CONVERSION', result });
+  chrome.storage.session.set({ pendingConversion: pending });
+  chrome.action.openPopup();
 });
-
-function convertPrice(text: string): string {
-  const parsed = parsePrice(text.trim());
-  if (!parsed) return `Could not parse a price from: "${text}"`;
-
-  // TODO: apply actual conversion rate
-  return `${parsed.currency} ${parsed.amount}`;
-}
