@@ -28,6 +28,7 @@ export interface CurrencyInputProps {
   placeholder?: string
   disabled?: boolean
   className?: string
+  readOnly?: boolean
 }
 
 export function CurrencyInput({
@@ -39,6 +40,7 @@ export function CurrencyInput({
   placeholder,
   disabled,
   className,
+  readOnly,
 }: CurrencyInputProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const [search, setSearch] = React.useState("")
@@ -148,6 +150,10 @@ export function CurrencyInput({
         allowNegative={false}
         placeholder={placeholder ?? "0"}
         disabled={disabled}
+        allowLeadingZeros={false}
+        decimalScale={2}
+        readOnly={readOnly}
+        aria-readonly={readOnly}
         className="placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex-1 min-w-0 rounded-r-md h-9 px-3 text-sm text-left bg-transparent outline-none"
       />
     </div>

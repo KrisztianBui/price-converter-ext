@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeftRight } from 'lucide-react';
+import {ArrowLeftRight} from 'lucide-react';
 import { Button } from '@src/components/ui/button';
+import { Text } from '@src/components/ui/t'
 import { CurrencyInput, CurrencyOption } from '@src/components/ui/currency-input';
 import { useExchangeRate } from '@src/hooks/useExchangeRate';
 
@@ -67,7 +68,7 @@ export default function Popup() {
           currency={fromCurrency}
           onCurrencyChange={setFromCurrency}
           currencies={CURRENCIES}
-          placeholder="0"
+          placeholder="1"
         />
 
         <Button variant="outline" size="icon" onClick={handleSwap} aria-label="Swap currencies">
@@ -81,8 +82,9 @@ export default function Popup() {
         currency={toCurrency}
         onCurrencyChange={setToCurrency}
         currencies={CURRENCIES}
-        placeholder={loading ? 'Loading…' : error ? 'Error' : '0'}
+        placeholder={loading ? 'Loading…' : error ? 'Error' : `${rate}`}
         disabled={loading}
+        readOnly
       />
     </div>
   );
