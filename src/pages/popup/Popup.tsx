@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import {ArrowLeftRight} from 'lucide-react';
 import { Button } from '@src/components/ui/button';
-import { Text } from '@src/components/ui/t'
 import { CurrencyInput, CurrencyOption } from '@src/components/ui/currency-input';
 import { useExchangeRate } from '@src/hooks/useExchangeRate';
+import { ReferenceTable } from '@src/components/ui/reference-table';
 
 const CURRENCIES: CurrencyOption[] = [
   { value: 'USD', label: 'US Dollar',        symbol: '$'   },
@@ -57,35 +57,54 @@ export default function Popup() {
   };
 
   return (
-    <div className="bg-background text-foreground flex h-full w-full flex-col gap-4 p-5">
-      <h1 className="text-lg font-semibold tracking-tight">Price Converter</h1>
-
-      <div className="flex items-center gap-2">
-        <CurrencyInput
-          className="flex-1"
-          amount={amount}
-          onAmountChange={setAmount}
-          currency={fromCurrency}
-          onCurrencyChange={setFromCurrency}
-          currencies={CURRENCIES}
-          placeholder="1"
-        />
-
-        <Button variant="outline" size="icon" onClick={handleSwap} aria-label="Swap currencies">
-          <ArrowLeftRight />
-        </Button>
+    <div className="bg-background text-foreground flex h-full w-full flex-col">
+      {/* Gradient header */}
+      <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-4">
+        <h1 className="text-lg font-semibold tracking-tight text-white">Price Converter</h1>
       </div>
 
-      <CurrencyInput
-        amount={result}
-        onAmountChange={() => {}}
-        currency={toCurrency}
-        onCurrencyChange={setToCurrency}
-        currencies={CURRENCIES}
-        placeholder={loading ? 'Loading…' : error ? 'Error' : `${rate}`}
-        disabled={loading}
-        readOnly
-      />
+      {/* Content */}
+      <div className="flex flex-col gap-4 p-5 flex-1">
+        <div className="flex items-center gap-2">
+          <CurrencyInput
+            className="flex-1"
+            amount={amount}
+            onAmountChange={setAmount}
+            currency={fromCurrency}
+            onCurrencyChange={setFromCurrency}
+            currencies={CURRENCIES}
+            placeholder="1"
+          />
+
+          <Button
+            variant="default"
+            size="icon"
+            onClick={handleSwap}
+            aria-label="Swap currencies"
+            className="bg-amber-500 hover:bg-amber-600 text-white border-0"
+          >
+            <ArrowLeftRight />
+          </Button>
+        </div>
+
+        <CurrencyInput
+          amount={result}
+          onAmountChange={() => {}}
+          currency={toCurrency}
+          onCurrencyChange={setToCurrency}
+          currencies={CURRENCIES}
+          placeholder={loading ? 'Loading…' : error ? 'Error' : `${rate}`}
+          disabled={loading}
+          readOnly
+        />
+
+        <ReferenceTable
+          fromCurrency={fromCurrency}
+          toCurrency={toCurrency}
+          rate={rate}
+          error={error}
+        />
+      </div>
     </div>
   );
 }
