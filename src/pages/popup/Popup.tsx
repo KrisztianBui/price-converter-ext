@@ -4,6 +4,7 @@ import { Button } from '@src/components/ui/button';
 import { CurrencyInput, CurrencyOption } from '@src/components/ui/currency-input';
 import { useExchangeRate } from '@src/hooks/useExchangeRate';
 import { ReferenceTable } from '@src/components/ui/reference-table';
+import * as React from 'react';
 
 const CURRENCIES: CurrencyOption[] = [
   { value: 'USD', label: 'US Dollar',        symbol: '$'   },
@@ -54,6 +55,7 @@ export default function Popup() {
   const handleSwap = () => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
+    setAmount(result)
   };
 
   return (
@@ -65,29 +67,24 @@ export default function Popup() {
 
       {/* Content */}
       <div className="flex flex-col gap-4 p-5 flex-1">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col items-center gap-2">
           <CurrencyInput
-            className="flex-1"
+            className="w-full"
             amount={amount}
             onAmountChange={setAmount}
             currency={fromCurrency}
             onCurrencyChange={setFromCurrency}
             currencies={CURRENCIES}
             placeholder="1"
+            rightAdornment={
+              <Button variant="ghost" size="icon" onClick={handleSwap}>
+                <ArrowLeftRight />
+              </Button>
+            }
           />
 
-          <Button
-            variant="default"
-            size="icon"
-            onClick={handleSwap}
-            aria-label="Swap currencies"
-            className="bg-amber-500 hover:bg-amber-600 text-white border-0"
-          >
-            <ArrowLeftRight />
-          </Button>
-        </div>
-
         <CurrencyInput
+          className="w-full"
           amount={result}
           onAmountChange={() => {}}
           currency={toCurrency}
@@ -97,6 +94,7 @@ export default function Popup() {
           disabled={loading}
           readOnly
         />
+        </div>
 
         <ReferenceTable
           fromCurrency={fromCurrency}

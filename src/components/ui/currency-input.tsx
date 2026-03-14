@@ -12,6 +12,8 @@ import {
   ComboboxEmpty,
 } from "@src/components/ui/combobox"
 import { InputGroup, InputGroupInput } from "@src/components/ui/input-group"
+import {Button} from '@src/components/ui/button';
+import {ArrowLeftRight} from 'lucide-react';
 
 export interface CurrencyOption {
   value: string   // "USD" — currency code
@@ -29,6 +31,7 @@ export interface CurrencyInputProps {
   disabled?: boolean
   className?: string
   readOnly?: boolean
+  rightAdornment?: React.ReactNode
 }
 
 export function CurrencyInput({
@@ -41,6 +44,7 @@ export function CurrencyInput({
   disabled,
   className,
   readOnly,
+  rightAdornment,
 }: CurrencyInputProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const [search, setSearch] = React.useState("")
@@ -152,10 +156,13 @@ export function CurrencyInput({
         disabled={disabled}
         allowLeadingZeros={false}
         decimalScale={2}
+        fixedDecimalScale
         readOnly={readOnly}
         aria-readonly={readOnly}
         className="placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex-1 min-w-0 rounded-r-md h-9 px-3 text-sm text-left bg-transparent outline-none"
       />
+
+      {rightAdornment}
     </div>
   )
 }
